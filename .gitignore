@@ -1,0 +1,6 @@
+./x64/
+Lab2/x64/
+*.filter
+*.user
+Debug/
+.vs/
