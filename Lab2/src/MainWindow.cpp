@@ -7,7 +7,7 @@ void MainWindow::Update(float deltaTime)
 	glClear(GL_COLOR_BUFFER_BIT);
 	
 	m_Circle->Bind();
-	glDrawElements(GL_TRIANGLES, 3 * 100, GL_UNSIGNED_INT, m_Circle->GetIndecies());
+	glDrawArrays(GL_POLYGON, 0, m_Circle->GetVertexCount());
 
 	std::cout << deltaTime << std::endl;
 }

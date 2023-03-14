@@ -9,7 +9,7 @@ class MainWindow : public AWindow
 public:
 	MainWindow(const std::string& title, int width, int height)
 		: AWindow(title, width, height) { 
-		m_Circle = new Circle(100, 0.25, 1.0, 0.0, 0.0);
+		m_Circle = new Circle(50, 0.25, 1.0, 0.0, 0.0);
 		m_Circle->Generate();
 	}
 	// Inherited via AWindow

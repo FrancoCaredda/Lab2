@@ -16,8 +16,6 @@ public:
 		m_Angles(angles), m_Radius(radius), m_Red(red), m_Green(green), m_Blue(blue) {}
 
 	inline float* GetBuffer() const noexcept { return m_Buffer; }
-	inline uint32_t* GetIndecies() const noexcept { return m_Indecies; }
-
 	inline uint32_t GetVertexCount() const noexcept { return m_Angles; }
 
 	// Inherited via IShape
@@ -31,9 +29,7 @@ private:
 	float m_Red = 1.0, m_Green = 1.0, m_Blue = 1.0;
 
 	float* m_Buffer = nullptr;
-	uint32_t* m_Indecies = nullptr; 
 	size_t m_BufferSize = 0;
-	size_t m_IndeciesSize = 0;
 };
 
 
