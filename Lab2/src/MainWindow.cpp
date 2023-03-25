@@ -8,9 +8,8 @@ float speed = 5.0f;
 
 float colorSpeed = 0.2f;
 
-float rotate = 0;
+float rotate = -180.0f;
 
-int dir = 1;
 
 void MainWindow::Update(float deltaTime)
 {
@@ -29,9 +28,9 @@ void MainWindow::Update(float deltaTime)
 
 		rotate -= 3 * speed * deltaTime;
 
-		glTranslatef(320.0f, 240.0f, 0.0f);
+		glTranslatef(m_CenterX, m_CenterY, 0.0f);
 		glRotatef(rotate, 0, 0, 1);
-		glTranslatef(-320.0f, -240.0f, 0.0f);
+		glTranslatef(-m_CenterX, -m_CenterY, 0.0f);
 
 		if (rotate < -360)
 			rotate = 0;
@@ -63,7 +62,7 @@ void MainWindow::Update(float deltaTime)
 		glPointSize(2);
 		glBegin(GL_POINTS);
 		glColor3f(1.0f, 1.0f, 1.0f);
-		glVertex2f(320.0f, 240.0f);
+		glVertex2f(m_CenterX, m_CenterY);
 		glEnd();
 #endif // _DEBUG
 	}
@@ -71,14 +70,39 @@ void MainWindow::Update(float deltaTime)
 
 void MainWindow::Resize(int width, int height)
 {
+	DeallocateObjects();
+	AllocateObjects();
+
+	m_CenterX = width / 2;
+	m_CenterY = height / 2;
 }
 
 void MainWindow::Init()
 {
-	
+	AllocateObjects();
 }
 
 MainWindow::~MainWindow()
 {
+	DeallocateObjects();
+}
+
+void MainWindow::AllocateObjects() noexcept
+{
+	m_Circle = new Circle(20, 20, m_CenterX, m_CenterY - 100, 1.0, 1.0, 0.0);
+	m_Circle->Generate();
+
+
+	m_MoonCircle = new Circle(20, 20, m_CenterX, m_CenterY - 100, 1.0, 1.0, 0.0);
+	m_MoonCircle->Generate();
+
+	m_CancelCircle = new Circle(20, 20, m_CenterX + 10, m_CenterY - 90, 0.0, 0.0, 0.0);
+	m_CancelCircle->Generate();
+}
+
+void MainWindow::DeallocateObjects() noexcept
+{
 	delete m_Circle;
+	delete m_MoonCircle;
+	delete m_CancelCircle;
 }
