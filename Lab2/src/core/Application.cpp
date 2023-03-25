@@ -35,6 +35,12 @@ void Application::Shutdown() noexcept
 
 void Application::Init(int)
 {
+	glViewport(0, 0, 640, 480);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluOrtho2D(0, 640, 0, 480);
+
 	s_Instance.m_CurrentContext->Init();
 }
 
@@ -52,5 +58,10 @@ void Application::Update()
 
 void Application::Resize(int width, int height)
 {
+	glViewport(0, 0, width, height);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluOrtho2D(0, width, 0, height);
+
 	s_Instance.m_CurrentContext->Resize(width, height);
 }

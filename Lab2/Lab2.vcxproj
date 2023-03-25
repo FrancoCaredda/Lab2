@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\core\data\Buffer.cpp" />
     <ClCompile Include="src\core\shape\Circle.cpp" />
     <ClCompile Include="src\core\Application.cpp" />
     <ClCompile Include="src\core\AWindow.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\core\data\Buffer.h" />
     <ClInclude Include="src\core\shape\Circle.h" />
     <ClInclude Include="src\core\shape\IShape.h" />
     <ClInclude Include="src\core\Application.h" />

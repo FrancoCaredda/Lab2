@@ -17,6 +17,8 @@ public:
 	virtual void Init() = 0;
 private:
 	int m_WndHandle;
+protected:
+	int m_Width, m_Height;
 };
 
 #endif // !AWINDOW_H

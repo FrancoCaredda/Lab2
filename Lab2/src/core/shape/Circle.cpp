@@ -6,6 +6,22 @@
 
 #include <iostream>
 
+void Circle::SetColor(float r, float g, float b) noexcept
+{
+	m_Red = r;
+	m_Green = g;
+	m_Blue = b;
+
+	UpdateColorBuffer();
+}
+
+void Circle::GetColor(float& r, float& g, float& b) const noexcept
+{
+	r = m_Red;
+	g = m_Green;
+	b = m_Blue;
+}
+
 void Circle::Generate()
 {
 	int vertexComponents = 5;
@@ -23,8 +39,8 @@ void Circle::Generate()
 
 		Utils::RotatePoint2d(Utils::AngleToRad(currentAngle), x, y);
 		
-		m_Buffer[currentPosition] = x;
-		m_Buffer[currentPosition + 1] = y;
+		m_Buffer[currentPosition] = x + m_X;
+		m_Buffer[currentPosition + 1] = y + m_Y;
 
 		m_Buffer[currentPosition + 2] = m_Red;
 		m_Buffer[currentPosition + 3] = m_Green;
@@ -48,5 +64,18 @@ Circle::~Circle()
 	if (m_Buffer != nullptr)
 	{
 		delete[] m_Buffer;
+	}
+}
+
+void Circle::UpdateColorBuffer() noexcept
+{
+	int vertexComponents = 5;
+	for (int i = 0; i < m_Angles; i++)
+	{
+		int currentVertexPosition = i * vertexComponents;
+
+		m_Buffer[currentVertexPosition + 2] = m_Red;
+		m_Buffer[currentVertexPosition + 3] = m_Green;
+		m_Buffer[currentVertexPosition + 4] = m_Blue;
 	}
 }
