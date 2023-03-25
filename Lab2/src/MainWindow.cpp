@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+
+// TODO(Franco): REFACTOR
 float offset = 0.0f;
 float speed = 5.0f;
 
@@ -10,7 +12,7 @@ float colorSpeed = 0.2f;
 
 float rotate = -180.0f;
 
-
+// TODO(Franco): REFACTOR
 void MainWindow::Update(float deltaTime)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -31,6 +33,10 @@ void MainWindow::Update(float deltaTime)
 		glTranslatef(m_CenterX, m_CenterY, 0.0f);
 		glRotatef(rotate, 0, 0, 1);
 		glTranslatef(-m_CenterX, -m_CenterY, 0.0f);
+
+		glTranslatef(m_ObjectCenterX, m_ObjectCenterY, 0.0f);
+		glRotatef(1.5f*rotate, 0, 0, 1);
+		glTranslatef(-m_ObjectCenterX, -m_ObjectCenterY, 0.0f);
 
 		if (rotate < -360)
 			rotate = 0;
@@ -54,6 +60,33 @@ void MainWindow::Update(float deltaTime)
 
 			m_Circle->Bind();
 			glDrawArrays(GL_POLYGON, 0, m_Circle->GetVertexCount());
+			
+			// DRAWING SUN RAYS
+			{
+				glBegin(GL_LINES);
+				float x, y, r, g, b;
+				m_Circle->GetCenter(x, y);
+				m_Circle->GetColor(r, g, b);
+
+				float* buffer = m_Circle->GetBuffer();
+				int vertexComponents = 5;
+
+				for (int i = 0; i < m_Circle->GetVertexCount(); i++)
+				{
+					int currentPosition = vertexComponents * i;
+
+					glColor3f(r, g, b);
+					glVertex2f(x, y);
+
+					float xVec = buffer[currentPosition] - x;
+					float yVev = buffer[currentPosition + 1] - y;
+
+					glColor3f(r, g, b);
+					glVertex2f(buffer[currentPosition] + xVec, buffer[currentPosition + 1] + yVev);
+				}
+
+				glEnd();
+			}
 		}
 
 		glPopMatrix();
@@ -65,6 +98,8 @@ void MainWindow::Update(float deltaTime)
 		glVertex2f(m_CenterX, m_CenterY);
 		glEnd();
 #endif // _DEBUG
+
+		std::cout << deltaTime << std::endl;
 	}
 }
 
@@ -89,14 +124,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::AllocateObjects() noexcept
 {
-	m_Circle = new Circle(20, 20, m_CenterX, m_CenterY - 100, 1.0, 1.0, 0.0);
+	m_Circle = new Circle(20, 20, m_ObjectCenterX, m_ObjectCenterY, 1.0, 1.0, 0.0);
 	m_Circle->Generate();
 
-
-	m_MoonCircle = new Circle(20, 20, m_CenterX, m_CenterY - 100, 1.0, 1.0, 0.0);
+	m_MoonCircle = new Circle(20, 20, m_ObjectCenterX, m_ObjectCenterY, 1.0, 1.0, 0.0);
 	m_MoonCircle->Generate();
 
-	m_CancelCircle = new Circle(20, 20, m_CenterX + 10, m_CenterY - 90, 0.0, 0.0, 0.0);
+	m_CancelCircle = new Circle(20, 20, m_CancelCenterX, m_CancelCenterY, 0.0, 0.0, 0.0);
 	m_CancelCircle->Generate();
 }
 

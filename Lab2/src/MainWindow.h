@@ -24,6 +24,8 @@ private:
 	Circle* m_CancelCircle = nullptr;
 
 	int m_CenterX = m_Width / 2, m_CenterY = m_Height / 2;
+	int m_ObjectCenterX = m_CenterX, m_ObjectCenterY = m_CenterY - 100;
+	int m_CancelCenterX = m_CenterX + 10, m_CancelCenterY = m_CenterY - 90;
 };
 
 #endif // !MAIN_WINDOW_H

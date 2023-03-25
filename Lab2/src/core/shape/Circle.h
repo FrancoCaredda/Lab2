@@ -20,6 +20,8 @@ public:
 	void SetColor(float r, float g, float b) noexcept;
 	void GetColor(float& r, float& g, float& b) const noexcept;
 
+	void GetCenter(float& x, float& y) const noexcept;
+
 	inline float* GetBuffer() const noexcept { return m_Buffer; }
 	inline uint32_t GetVertexCount() const noexcept { return m_Angles; }
 

@@ -22,6 +22,12 @@ void Circle::GetColor(float& r, float& g, float& b) const noexcept
 	b = m_Blue;
 }
 
+void Circle::GetCenter(float& x, float& y) const noexcept
+{
+	x = m_X;
+	y = m_Y;
+}
+
 void Circle::Generate()
 {
 	int vertexComponents = 5;
