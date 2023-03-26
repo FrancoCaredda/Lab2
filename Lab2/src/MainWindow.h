@@ -8,7 +8,12 @@ class MainWindow : public AWindow
 {
 public:
 	MainWindow(const std::string& title, int width, int height)
-		: AWindow(title, width, height) { }
+		: AWindow(title, width, height),
+		m_Center({ m_Width / 2, m_Height / 2 }),
+		m_ObjectCenter({ m_Center.x, m_Center.y - 100 }),
+		m_CancelCenter({ m_Center.x + 10, m_Center.y - 90 }) {
+		AllocateObjects();
+	}
 	// Inherited via AWindow
 	virtual void Update(float deltaTime) override;
 	virtual void Resize(int width, int height) override;
@@ -23,9 +28,15 @@ private:
 	Circle* m_MoonCircle = nullptr;
 	Circle* m_CancelCircle = nullptr;
 
-	int m_CenterX = m_Width / 2, m_CenterY = m_Height / 2;
-	int m_ObjectCenterX = m_CenterX, m_ObjectCenterY = m_CenterY - 100;
-	int m_CancelCenterX = m_CenterX + 10, m_CancelCenterY = m_CenterY - 90;
+	float offset = 0.0f;
+	float colorSpeed = 0.2f;
+
+	float speed = 5.0f;
+	float rotate = -180.0f;
+
+	glm::vec2 m_Center;
+	glm::vec2 m_ObjectCenter;
+	glm::vec2 m_CancelCenter;
 };
 
 #endif // !MAIN_WINDOW_H

@@ -2,6 +2,7 @@
 #define UTILS_H
 
 #include <cmath>
+#include <glm/glm.hpp>
 
 #define EPSILON 1e-5
 #define LESS_OR_EQUAL(X, Y) (  ((X) < (Y)) || ( fabs((X) - (Y)) < EPSILON )  )
@@ -17,13 +18,7 @@ namespace Utils
 	/// <summary>
 	/// Applies basic rotation transformation
 	/// </summary>
-	/// <param name="angle">: must be in radians</param>
-	/// <param name="x"></param>
-	/// <param name="y"></param>
-	void RotatePoint2d(float angle, float& x, float& y);
-	void HSLToRGB(Color3f inHSL, Color3f outRGB) noexcept;
-
-	inline float CalculatePercentValue(float percentValue, float value) noexcept;
+	glm::vec2 RotatePoint2d(float angle, const glm::vec2& point);
 }
 
 #endif // !UTILS_H

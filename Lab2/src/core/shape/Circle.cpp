@@ -6,26 +6,16 @@
 
 #include <iostream>
 
-void Circle::SetColor(float r, float g, float b) noexcept
+void Circle::SetColor(const glm::vec3& color) noexcept
 {
-	m_Red = r;
-	m_Green = g;
-	m_Blue = b;
-
-	UpdateColorBuffer();
+	m_Color = color;
+	RecalculateBuffer();
 }
 
-void Circle::GetColor(float& r, float& g, float& b) const noexcept
+void Circle::SetCenter(const glm::vec2& center) noexcept
 {
-	r = m_Red;
-	g = m_Green;
-	b = m_Blue;
-}
-
-void Circle::GetCenter(float& x, float& y) const noexcept
-{
-	x = m_X;
-	y = m_Y;
+	m_Center = center;
+	RecalculateBuffer();
 }
 
 void Circle::Generate()
@@ -34,26 +24,7 @@ void Circle::Generate()
 	m_BufferSize = vertexComponents * m_Angles;
 	m_Buffer = new float[m_BufferSize];
 
-	float currentAngle = 0;
-	float angleIncrement = 360.0f / m_Angles;
-
-	for (int i = 0; i < m_Angles; i++)
-	{
-		int currentPosition = i * vertexComponents;
-		float x = 0;
-		float y = m_Radius;
-
-		Utils::RotatePoint2d(Utils::AngleToRad(currentAngle), x, y);
-		
-		m_Buffer[currentPosition] = x + m_X;
-		m_Buffer[currentPosition + 1] = y + m_Y;
-
-		m_Buffer[currentPosition + 2] = m_Red;
-		m_Buffer[currentPosition + 3] = m_Green;
-		m_Buffer[currentPosition + 4] = m_Blue;
-
-		currentAngle += angleIncrement;
-	}
+	RecalculateBuffer();
 }
 
 void Circle::Bind()
@@ -73,15 +44,27 @@ Circle::~Circle()
 	}
 }
 
-void Circle::UpdateColorBuffer() noexcept
+void Circle::RecalculateBuffer() noexcept
 {
 	int vertexComponents = 5;
+
+	float currentAngle = 0;
+	float angleIncrement = 360.0f / m_Angles;
+
+	glm::vec2 point({ 0, m_Radius });
 	for (int i = 0; i < m_Angles; i++)
 	{
-		int currentVertexPosition = i * vertexComponents;
+		int currentPosition = i * vertexComponents;
 
-		m_Buffer[currentVertexPosition + 2] = m_Red;
-		m_Buffer[currentVertexPosition + 3] = m_Green;
-		m_Buffer[currentVertexPosition + 4] = m_Blue;
+		glm::vec2 rotatedPoint = Utils::RotatePoint2d(Utils::AngleToRad(currentAngle), point);
+
+		m_Buffer[currentPosition] = rotatedPoint.x + m_Center.x;
+		m_Buffer[currentPosition + 1] = rotatedPoint.y + m_Center.y;
+
+		m_Buffer[currentPosition + 2] = m_Color.x;
+		m_Buffer[currentPosition + 3] = m_Color.y;
+		m_Buffer[currentPosition + 4] = m_Color.z;
+
+		currentAngle += angleIncrement;
 	}
 }
